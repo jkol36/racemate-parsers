@@ -1,22 +1,19 @@
 export const mockPreset = {
   race_criteria: {
     race_distance: {
-      min: 100,
-      max: 1000
+      min: 1000,
+      max: 10000
     },
-    condition_class:6,
+    condition_class:25,
     condition_age: 2,
-    condition_weight: 0,
-    condition_sex:1,
+    condition_weight: 6,
+    condition_sex:0,
     apprentices_can_claim: true,
-    prize_first: 3000,
-    prize_second: 3000,
-    prize_third: 3000,
-    race_starters: 7,
-    venue_state: '',
-    venue_name: 'Gore',
+    race_starters: 10,
+    venue_state: 'WA',
+    venue_name: 'Albany',
     race_min_hcp_weight:54,
-    meeting_is_night: true,
+    meeting_is_night: false,
     blinkers_on: true
   },
   horse_criteria: {

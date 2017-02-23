@@ -24,6 +24,12 @@ const openResultJsonFile = () => {
     resolve(json)
   })
 }
+const openFieldsJsonFile = () => {
+  return new Promise(resolve => {
+    let json = require('./fields.json')
+    resolve(json)
+  })
+}
 
 const isValid = (preset, race) => {
   const {race_criteria, horse_criteria} = preset
@@ -36,38 +42,37 @@ const isValid = (preset, race) => {
     condition_weight,
     race_starters,
     meeting_is_night,
-    apprentices_can_claim
+    apprentices_can_claim,
+    race_min_hcp_weight,
+    venue_state,
+    venue_name
   } = race_criteria
-  expect(race.blinkers_on).to.be.a('boolean')
-  expect(blinkers_on).to.be.a('boolean')
-  expect(race.condition_class).to.be.a('number')
-  expect(+race.race_distance).to.be.a('number')
-  expect(+race.race_starters).to.be.a('number')
-  expect(race.meeting_is_night).to.be.a('boolean')
-  expect(race_starters).to.be.a('number')
-  expect(+race.race_starters).to.be.a('number')
-  expect(race.condition_weight).to.be.a('number')
-  expect(race.condition_age).to.be.a('number')
-  expect(condition_weight).to.be.a('number')
-  expect(race.condition_sex).to.be.a('number')
   return (
-    +race.race_distance > min &&
-    +race.race_distance <= max &&
-    race.blinkers_on === blinkers_on &&
-    race.condition_age === condition_age &&
-    race.condition_class === condition_class &&
-    race.condition_sex === condition_sex &&
-    +race.condition_weight === +condition_weight &&
-    race.condition_jockey.apprentices_can_claim === apprentices_can_claim &&
-    +race.race_starters === race_starters &&
-    race.meeting_is_night === meeting_is_night
-    )
+    (venue_state != undefined ? race.venue_state === venue_state: true) &&
+    (venue_name != undefined ? race.venue_name === venue_name: true) &&
+    (blinkers_on != undefined ? race.blinkers_on === blinkers_on: true) && //
+    (race_min_hcp_weight != undefined ? race_min_hcp_weight <= +race.race_min_hcp_weight: true) &&
+    (race_starters != undefined ? race_starters === +race.race_starters: true) && //
+    (condition_age != undefined ? race.condition_age === condition_age: true) &&
+    (condition_class != undefined ? race.condition_class === condition_class: true) &&
+    (condition_sex != undefined ? race.condition_sex === condition_sex: true) &&
+    (condition_weight != undefined ? +race.condition_weight === +condition_weight: true) &&
+    (apprentices_can_claim != undefined ? race.condition_jockey.apprentices_can_claim === apprentices_can_claim: true) &&
+    (meeting_is_night != undefined ? race.meeting_is_night === meeting_is_night: true)//
+  )
+  
 }
 
 
+
 openResultJsonFile().then(races => {
-  let validRaces = races.map(race => raceFactory(race)).filter(race => isValid(mockPreset, race))
+  // let valid = isValid(mockPreset, raceFactory(races[0]))
+  // console.log(valid)
+  // console.log(raceFactory(races[0]))
+  //console.log(raceFactory(races[0]))
+  let validRaces = races.map(race => raceFactory(race)).filter(race => isValid(mockPreset, race) === true)
   console.log(validRaces.length)
+  //console.log(validRaces.map(race => race.blinkers_on)) //should be false
 
 })
 

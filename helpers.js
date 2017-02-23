@@ -149,6 +149,7 @@ export const raceFactory = (race) => {
     },
     condition_weight: conditionWeightConverter[race.condition_weight],
     condition_sex: conditionSexConverter[race.condition_sex]
+    
   }
   let newRace = {}
   Object.keys(race).forEach(k => {
